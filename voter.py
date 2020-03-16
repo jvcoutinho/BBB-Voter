@@ -1,4 +1,5 @@
 import json
+import time
 
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
@@ -6,6 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote import switch_to
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
 
 
 def read_configuration_file():
@@ -13,14 +15,7 @@ def read_configuration_file():
         arguments = json.load(file)
     return arguments
 
-def create_tab(driver):
-    driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't')
-
-def close_tab(driver):
-    driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
-
 def login(driver, email, password):
-    create_tab(driver)
     driver.get('https://login.globo.com/login/1')
     
     email_input = driver.find_element_by_name('login')
@@ -30,23 +25,35 @@ def login(driver, email, password):
     email_input.send_keys(email)
     password_input.send_keys(password)
     form.submit()
+
+def click_on_target(driver, target):
+    driver.find_elements_by_class_name('inCORyOvohT4oJQIoKjlO')[target - 1].click()
+
+
+def click_on_captcha(driver):
+    driver.find_element_by_class_name('gc__3_EfD').click()
     
-    close_tab(driver)
 
 arguments = read_configuration_file()
 
-print("You're voting on", arguments['target'])
+print("You're voting on", arguments['targetPosition'])
 
 driver = webdriver.Edge(executable_path='./msedgedriver.exe')
+driver.implicitly_wait(8)
 
 login(driver, arguments['credentials']['username'],
       arguments['credentials']['password'])
 
 driver.get(arguments['pollURL'])
 
-# target = driver.find_element_by_xpath(
-#     "//div[text()='" + arguments['target'] + "']//ancestor::div")
-
-# target.click()
+while True:
+    click_on_target(driver, arguments['targetPosition'])
+    click_on_captcha(driver)
+    time.sleep(2)
+    if 'Símbolo errado' in driver.find_element_by_tag_name('body').text:
+        click_on_captcha(driver)
+    else:
+        driver.get(arguments['pollURL'])
+    time.sleep(2)
 
 driver.close()
