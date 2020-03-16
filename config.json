@@ -1,6 +1,6 @@
 {
     "pollURL": "",
-    "target": "",
+    "targetPosition": 1,
     "credentials": {
         "username": "",
         "password": ""
