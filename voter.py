@@ -51,7 +51,7 @@ while True:
     click_on_target(driver, arguments['targetPosition'])
     click_on_captcha(driver)
     time.sleep(2)
-    if 'Símbolo errado' in driver.find_element_by_tag_name('body').text:
+    if not driver.find_element_by_class_name('_1iMqGq8UKv9W1nDF0AvZbu').is_displayed():
         click_on_captcha(driver)
     else:
         correct_votes += 1
