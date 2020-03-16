@@ -46,6 +46,7 @@ login(driver, arguments['credentials']['username'],
 
 driver.get(arguments['pollURL'])
 
+correct_votes = 0
 while True:
     click_on_target(driver, arguments['targetPosition'])
     click_on_captcha(driver)
@@ -53,6 +54,8 @@ while True:
     if 'Símbolo errado' in driver.find_element_by_tag_name('body').text:
         click_on_captcha(driver)
     else:
+        correct_votes += 1
+        print(correct_votes, 'computed')
         driver.get(arguments['pollURL'])
     time.sleep(2)
 
