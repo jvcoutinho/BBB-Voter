@@ -1,4 +1,8 @@
 {
     "pollURL": "",
-    "target": ""
+    "target": "",
+    "credentials": {
+        "username": "",
+        "password": ""
+    }
 }
