@@ -50,13 +50,13 @@ correct_votes = 0
 while True:
     click_on_target(driver, arguments['targetPosition'])
     click_on_captcha(driver)
-    time.sleep(2)
+    time.sleep(5)
     if not driver.find_element_by_class_name('_1iMqGq8UKv9W1nDF0AvZbu').is_displayed():
         click_on_captcha(driver)
     else:
         correct_votes += 1
         print(correct_votes, 'computed')
         driver.get(arguments['pollURL'])
-    time.sleep(2)
+    time.sleep(5)
 
 driver.close()
