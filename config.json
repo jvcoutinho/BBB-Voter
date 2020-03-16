@@ -4,5 +4,6 @@
     "credentials": {
         "username": "",
         "password": ""
-    }
+    },
+    "webDriverPath": ""
 }

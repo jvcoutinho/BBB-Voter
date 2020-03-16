@@ -38,7 +38,7 @@ arguments = read_configuration_file()
 
 print("You're voting on", arguments['targetPosition'])
 
-driver = webdriver.Edge(executable_path='./msedgedriver.exe')
+driver = webdriver.Edge(executable_path=arguments['webDriverPath'])
 driver.implicitly_wait(8)
 
 login(driver, arguments['credentials']['username'],
